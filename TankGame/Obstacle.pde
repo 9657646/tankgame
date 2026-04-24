@@ -1,30 +1,57 @@
-// Dan Jansen | Apr 14 2026 | Tank
 class Obstacle {
-  int x,y,w,h,speed,health;
-  //PImage obstl;
- 
+  float x, w, y, h, speed, health;
+  PImage obst1;
+  char idir;
 
   //Constructor
-  Obstacle(int x, int y) {
-    this.x = x;
-    this.y = y;
-    w = 100;
-    h = 100;
-    speed = 2;
-    health = 75;
+  Obstacle(float w, float h) {
+    this.w = w;
+    this.h = h;
+    speed = 5;
+    health = 100;
+    if (int(random(4))==2) {
+      idir = 'w';
+      x = random(width);
+      y = height + 100;
+    } else if (int(random(3))==1) {
+      idir = 'd';
+      x = -100;
+      y = random(height);
+    } else if (int(random(2))==1) {
+      idir = 'a';
+      x = width+100;
+      y = random(height);
+    } else {
+      idir = 's';
+      x = random(width);
+      y = -100;
+    }
+
+    obst1 = loadImage("tumbleweed.png");
   }
 
   void display() {
-    rectMode(CENTER);
-    fill(127);
-    rect(x,y,w,h);
-    
+    imageMode(CENTER);
+    image(obst1, x, y);
   }
-  
+
   void move() {
-   x = x + speed;
-   if(x>width){
-     x = 0;
-   }
-   }
+    switch(idir) {
+      case 'w':
+      y = y -speed;
+      break;
+      case 'a':
+      x = x -speed;
+      break;
+      case 's':
+      y = y + speed;
+      break;
+      case 'd':
+      x = x + speed;
+    }
+  }
+  boolean reachedEdge() {
+    return x >= width+150 || x <= -150 || y > height + 150 || y < -150;
+    // Logic for when to return true
+  }
 }

@@ -1,6 +1,7 @@
 class Projectile {
   int x, w, y, h, speed;
 
+
   //Constructor
   Projectile(int x, int y) {
     this.x = x;
@@ -10,14 +11,27 @@ class Projectile {
     speed = 4;
   }
 
+
   void display() {
     rectMode(CENTER);
     rect(x, y, w, h);
   }
 
+
   void move() {
     y = y - speed;
   }
+
+
+  boolean intersect(Obstacle o) {
+    float distance = dist(x, y, o.x, o.y);
+    if (distance < 100) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   boolean reachedEdge() {
     return x >= width+150 || x <= -150 || y > height + 150 || y < -150;
